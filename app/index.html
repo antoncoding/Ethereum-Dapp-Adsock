@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PISA</title>
+
+  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+  
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  
+  <style>
+    .margin-top-3 {
+    margin-top: 3em;}
+  </style>
+</head>
+
+<body class="container" style="margin: 0%; padding: 0%; width: 100%">
+
+
+<div class="container" style="margin:7%; padding">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 id="title-msg">Public Interactive Semantic Ad</h1><br>
+      
+      <h2 id="title-msg-small"></h2>
+
+
+      
+      <div class="table-responsive" id="dashboard-tables">
+        <button class="btn btn-info" onclick="update()"> Update </button>
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>Current Content</th>
+              <th>Highest Bid (ETH)</th>
+              <th>Next Content</th>
+              <th>Bid Closed</th>
+            </tr>
+          </thead>
+          <tbody>
+              <td id="owner_current_content"> - </td>
+              <td id="owner_highest_bid"></td>
+              <td id="owner_next_content"></td>
+              <td id="owner_due_time"></td>
+          </tbody>
+        </table>
+
+        <h2> Settings </h2>
+        <table class=" table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th> Your website Link</th>
+              <th> Margin Ratio</th>
+              <th> Total Earned </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="owner_web"> - </td>
+              <td id="owner_margin"></td>
+              <td id="owner_revenue"></td>
+            </tr>
+            <tr>
+              <td> <div class="input-group"><input class="form-control" type="text" id="new-url" placeholder="New url"/><span class="input-group-btn"><button href="#" onclick="changeWeb()" class="btn btn-info">Update</button><span class="input-group-btn"> </div> </td>
+              <td>
+                <div class="input-group"><input class="form-control" type="number" id="new-margin-ratio" placeholder="Change Ratio"/><span class="input-group-btn"><button href="#" onclick="changeRatio()" class="btn btn-info">Update</button><span class="input-group-btn"> </div></td>
+              
+                <td><div class="input-group">
+                <span class="input-group-btn"><button href="#" onclick="Withdraw()" class="btn btn-info">Withdraw</button><span class="input-group-btn">
+                </div>
+                </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+    </div>
+    
+    <div class="col-sm-5" style="padding-top: 10px">  
+      <div class="input-group" id='register_button_div'>
+            <button href="#" onclick="register()" class="btn btn-info">Register As Owner</button>
+        </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+  <div class="col-sm-12 margin-top-3">
+    <h2>All Available Boards</h2>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>Owner</th>
+            <th>Current Content</th>
+            <th>Bid Closed</th>
+            <th>Highest Bid (ETH)</th>
+            <th>Next Content</th>
+          </tr>
+        </thead>
+        <tbody id="ad-rows">
+        </tbody>
+      </table>
+    </div>
+    <!-- <div class="container-fluid"> -->
+      <h2>Bid for Ad Board</h2>
+      <div id="msg"></div>
+      <input class="form-control" type="text" id="bid_for_adID" placeholder="Enter the candidate name"/>
+      <input class="form-control" type="text" id="bid_content" placeholder="Content"/>
+      <br>
+      <div class="input-group">
+        <input class="form-control" type="number" id="vote-tokens" placeholder="Total no. of tokens to Bid"/>
+        <span class="input-group-btn"><button href="#" onclick="bidForAd()" class="btn btn-info">Bid</button><span class="input-group-btn">
+      </div>
+    <!-- </div> -->
+  </div>
+  
+  </div>
+</body>
+<script src="app.js"></script>
+</html>
