@@ -9,15 +9,12 @@ import { default as contract } from 'truffle-contract'
 import Adseller_artifacts from '../../build/contracts/adseller.json'
 
 var Adseller = contract(Adseller_artifacts);
-
 let AddressList = [] 
-
 let tokenPrice = null;
 
 window.bidForAd = function(ad) {
   let AdId = $("#bid_for_adID").val();
   let content = $("#bid_content").val();
-
 
   Adseller.deployed().then(function(contractInstance) {
     let Tokens = $("#vote-tokens").val();
@@ -29,11 +26,22 @@ window.bidForAd = function(ad) {
 
 
 window.register = function(){
+  let minutes = $("#time-interval-minute").val();
+  let hours = $("#time-interval-hour").val();
+  let days = $("#time-interval-day").val();
+  let in_second = 86400*days + 3600*hours + 60*minutes;
+  // window.alert(in_second);
   let adID = $("#ad_id").val();
   $("#ad-msg").html("Register request has been submitted. Please wait.");
+  
   Adseller.deployed().then(function(contractInstance) {
-    contractInstance.register({gas: 140000, from: getCurrentAccount()}).then(function() {
+    contractInstance.register(in_second, {gas: 140000, from: getCurrentAccount()}).then(function() {
       $("#ad-msg").html("");
+      // Update url seperately
+      var new_url = $("#new-url").val();
+        contractInstance.setHostWebUrl(new_url,{gas: 140000, from: getCurrentAccount()}).then(function(success) {
+        if(success==true){window.alert("Successfully registered, please refresh the page!")}
+    })
     })
   });
 }
@@ -41,7 +49,7 @@ window.register = function(){
 window.update = function(){
   let this_user = getCurrentAccount();
   Adseller.deployed().then(function(contractInstance) {
-    contractInstance.gotoNext(this_user,{gas: 180000, from: getCurrentAccount()}).then(function(success) {
+    contractInstance.gotoNext(this_user,{gas: 240000, from: getCurrentAccount()}).then(function(success) {
       if(success==true){window.alert("Success")}
     })
   });
@@ -93,18 +101,16 @@ function populateAds() {
   let this_user = getCurrentAccount();
   Adseller.deployed().then(function(contractInstance) {
     
-    // check is registered
-    contractInstance.get_registered.call(this_user).then(function(r) {
+    contractInstance.registered.call(this_user).then(function(r) {
       if(r==true){
         $("#user-title").html("You have Already Login");
-        $("#register_button_div").html(""); 
+        $("#signup-div").html("<button>"+getCurrentAccount()+"</button>");
+
       }
       else{
         $("#dashboard-tables").html("");
       }
     })
-
-
 
     contractInstance.get_ad_id_list.call().then(function(address_list){
       AddressList = address_list;
@@ -112,11 +118,10 @@ function populateAds() {
 
       for(var i=0; i< AddressList.length; i++){
         let addr = AddressList[i];
-        // recall hell
-        contractInstance.get_nextAdContent.call(addr).then(function(nc){
-           contractInstance.get_bid_due_time.call(addr).then(function(t){
-              contractInstance.get_highestBid.call(addr).then(function(b){
-                contractInstance.get_currentAdContent.call(addr).then(function(cc){
+        contractInstance.nextAdContent.call(addr).then(function(nc){
+           contractInstance.bidDueTime.call(addr).then(function(t){
+              contractInstance.highestBid.call(addr).then(function(b){
+                contractInstance.currentAdContent.call(addr).then(function(cc){
                 var date = new Date(t*1000);
                 b = b/1000000000000000000;
                 $("#ad-rows").append("<tr><td>"+addr+"</td><td id='cc_"+addr+"'>"+cc+"</td><td id='due_" 
@@ -132,38 +137,37 @@ function populateAds() {
   
 
   Adseller.deployed().then(function(contractInstance) {
-    contractInstance.get_registered.call(this_user).then(function(v) {
+    contractInstance.registered.call(this_user).then(function(v) {
       if(v==true){
         $("#title-msg-small").html('Dashboard');
 
-        // get all the setting and dashboard info:
-        // Dashboard First:
-        contractInstance.get_currentAdContent.call(this_user).then(function(c){
-          $("#owner_current_content").html(c);
+        contractInstance.currentAdContent.call(this_user).then(function(c){
+          var str_div = '<img style="max-height:200px" src="' + c + '" />'
+          $("#owner_current_content").html(str_div);
         });
-        contractInstance.get_highestBid.call(this_user).then(function(b){
+        contractInstance.highestBid.call(this_user).then(function(b){
           b = b/1000000000000000000;
           $("#owner_highest_bid").html(b);
         });
-        contractInstance.get_nextAdContent.call(this_user).then(function(c){
-
-          $("#owner_next_content").html(c);
+        contractInstance.nextAdContent.call(this_user).then(function(c){
+          var str_div = '<img style="max-height:200px" src="' + c + '" />'
+          $("#owner_next_content").html(str_div);
         });
-        contractInstance.get_bid_due_time.call(this_user).then(function(time){
+        contractInstance.bidDueTime.call(this_user).then(function(time){
           var date = new Date(time*1000);
           $("#owner_due_time").html(date);
         });
 
-
         // Setting
-        contractInstance.get_marginRatio.call(this_user).then(function(ratio){
+        contractInstance._marginRatio.call(this_user).then(function(ratio){
           ratio = ratio/1;
           $('#owner_margin').html(ratio);
         });
-        contractInstance.get_host_web_url.call(this_user).then(function(url){
-          $('#owner_web').html(url);
+        contractInstance.hostWebUrl.call(this_user).then(function(url){
+          var url_link = '<a href="' + url + '">' + url + '</a>';
+          $('#owner_web').html(url_link);
         });
-        contractInstance.get_revenue.call(this_user).then(function(r){
+        contractInstance.revenue.call(this_user).then(function(r){
           //window.alert(r);
           r = r/1000000000000000000;
           $("#owner_revenue").html(r);
@@ -194,14 +198,18 @@ window.addEventListener('load', function() {
     window.web3 = new Web3(web3.currentProvider);
     if (web3.currentProvider.isMetaMask === true) {
       console.warn("Using Metamask...");
+      $('#metamask-warning').html('You are using Metamask right now.');
     }
     else {
       console.warn("No web3 detected. Falling back to http://localhost:8545.");
+      $('#metamask-warning').html = 'No Metamask detected, fetching localhost:8545';
       // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
       window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+
     }
   } 
   
   Adseller.setProvider(web3.currentProvider);
+  $('#address-warning').html(getCurrentAccount())
   populateAds();
 });

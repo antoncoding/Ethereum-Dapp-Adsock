@@ -1,128 +1,315 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>PISA</title>
+  <title>AdSocks</title>
 
+  <link href='https://fonts.googleapis.com/css?family=Didact Gothic' rel='stylesheet'>
   <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
-  
-  <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+     
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-<!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <style>
+    @import url(http://fonts.googleapis.com/css?family=Alfa+Slab+One);
+    body { 
+      background: url('http://baysajans.com/popup/background-opera-speeddials-community-web-simple-backgrounds-simple-1064300555.jpg') no-repeat center center fixed; 
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+
+      }
+    .brand{
+      color: #a50000;  
+      font-family: 'Ranchers'; 
+      font-weight: bold;
+    }
+
     .margin-top-3 {
-    margin-top: 3em;}
+      margin-top: 3em;}
+
+    /* Style the tab */
+    div.tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #ffffff;
+    }
+
+    /* Style the buttons inside the tab */
+    div.tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+    }
+
+    /* Change background color of buttons on hover */
+    div.tab button:hover {
+        background-color: #ddd;
+    }
+
+    /* Create an active/current tablink class */
+    div.tab button.active {
+        background-color: #ccc;
+    }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6%;
+        /*border: 1px solid #ccc;*/
+        border-top: none;
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #fefefe;
+        margin-left: 25% ; /* 15% from the top and centered */
+        margin-right: 15% auto; 
+        margin-top: 5%;
+        padding: 20px;
+        /*border: 1px solid #888;*/
+        width: 80%; /* Could be more or less, depending on screen size */
+    }
+
+    /* The Close Button */
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
   </style>
 </head>
-
-<body class="container" style="margin: 0%; padding: 0%; width: 100%">
-
-
-<div class="container" style="margin:7%; padding">
-  <div class="row">
+<body >
+<div class="container" style="margin:0%; width: 100%; height: 100%; padding: 0%" >
+  <div class="row" >
     <div class="col-sm-12">
-      <h1 id="title-msg">Public Interactive Semantic Ad</h1><br>
-      
-      <h2 id="title-msg-small"></h2>
-
-
-      
-      <div class="table-responsive" id="dashboard-tables">
-        <button class="btn btn-info" onclick="update()"> Update </button>
-        <table class="table table-bordered table-hover">
-          <thead>
-            <tr>
-              <th>Current Content</th>
-              <th>Highest Bid (ETH)</th>
-              <th>Next Content</th>
-              <th>Bid Closed</th>
-            </tr>
-          </thead>
-          <tbody>
-              <td id="owner_current_content"> - </td>
-              <td id="owner_highest_bid"></td>
-              <td id="owner_next_content"></td>
-              <td id="owner_due_time"></td>
-          </tbody>
-        </table>
-
-        <h2> Settings </h2>
-        <table class=" table table-bordered table-hover">
-          <thead>
-            <tr>
-              <th> Your website Link</th>
-              <th> Margin Ratio</th>
-              <th> Total Earned </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td id="owner_web"> - </td>
-              <td id="owner_margin"></td>
-              <td id="owner_revenue"></td>
-            </tr>
-            <tr>
-              <td> <div class="input-group"><input class="form-control" type="text" id="new-url" placeholder="New url"/><span class="input-group-btn"><button href="#" onclick="changeWeb()" class="btn btn-info">Update</button><span class="input-group-btn"> </div> </td>
-              <td>
-                <div class="input-group"><input class="form-control" type="number" id="new-margin-ratio" placeholder="Change Ratio"/><span class="input-group-btn"><button href="#" onclick="changeRatio()" class="btn btn-info">Update</button><span class="input-group-btn"> </div></td>
-              
-                <td><div class="input-group">
-                <span class="input-group-btn"><button href="#" onclick="Withdraw()" class="btn btn-info">Withdraw</button><span class="input-group-btn">
-                </div>
-                </td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="tab" style="font-size: 18px">
+        <button id="main-tab-btn" class="tablinks brand" onclick="openCity(event, 'main-tab')"> ADSOCKS</button>
+        <button class="tablinks" onclick="openCity(event, 'dashboard')">Dashboard</button>
+        <button class="tablinks" onclick="openCity(event, 'live-bidding')">Live Bidding</button>
+        <button class="tablinks" onclick="openCity(event, 'settings')">Setting</button>
+        <div style="float: right" id = "signup-div"><button id='signup-btn' >Signup</button></div>
+        
       </div>
-  
-    </div>
-    
-    <div class="col-sm-5" style="padding-top: 10px">  
-      <div class="input-group" id='register_button_div'>
-            <button href="#" onclick="register()" class="btn btn-info">Register As Owner</button>
+
+      <div id="myModal" class="modal">
+        <div class="modal-content" style="width: 50%">
+          <span class="close">&times;</span>
+          <h2 style="text-align: center;">Sign Up</h2><hr>
+          <p> To Sign Up <span class="brand">ADSOCKS</span>, please install <a href="https://metamask.io/"> metamask </a> in your Chrome browser or run an Ethereum node on your local computer. We will use your public ethereum address as username, and you will only be able to login through metamask</p>
+          <br>
+          <p id="metamask-warning">  </p>
+          <br>
+          <h4> Your Current Address</h4>
+          <p id="address-warning"></p>
+          <br>
+          <h4> How long will your sock be on the christmas tree? </h4>
+          <div class="input-group">
+            <input class="form-control" style="width: 30%" type="number" id="time-interval-day" placeholder="Days"/>  
+            <input class="form-control" style="width: 30%" type="number" id="time-interval-hour" placeholder="Hours"/>      
+            <input class="form-control" style="width: 30%" type="number" id="time-interval-minute" placeholder="Minutes"/>
+          </div>
+          <br>
+          <h4> Where is your christmas tree? </h4>
+          <input type="text" name="web-url" id="new-url" class="form-control" placeholder="Your webpage url">
+          <div style="text-align: center;"><button href="#" onclick="register()" class="btn btn-info">Register</button></div>
+          
         </div>
-    </div>
+      </div>
+
+      <div id="main-tab" class="tabcontent">
+        <h2> Welcome to <span class="brand"> ADSOCKS </span>, Adsense Sucks
+      </div>
+
+      <!-- User Dashboard -->
+      <div id="dashboard" class="tabcontent">
+        <h2 id="title-msg-small"></h2>
+        <div class="table-responsive" id="dashboard-tables">
+          <button class="btn btn-info" onclick="update()"> Update </button>
+          <br>
+          <h4> My current web <span style="padding-left: 47px " id="owner_web"></span></h4>
+          <br>
+          <h4> Current Bid Due <span style="padding-left: 44px " id="owner_due_time"></span></h4>
+          <br>
+          <h4> Current Highest Bid<span style="padding-left: 45px" id="owner_highest_bid"></span></h4>
+          <br>
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th>Current Content</th>
+                <!-- <th>Highest Bid (ETH)</th> -->
+                <th>Next Content</th>
+                <!-- <th>Bid Closed</th> -->
+              </tr>
+            </thead>
+            <tbody>
+                <td id="owner_current_content"> - </td>
+                <!-- <td id="owner_highest_bid"></td> -->
+                <td id="owner_next_content"></td>
+                <!-- <td id="owner_due_time"></td> -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="live-bidding" class="tabcontent">
+          <h2>All Available Boards</h2>
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th>Owner</th>
+                  <th>Current Content</th>
+                  <th>Bid Closed</th>
+                  <th>Highest Bid (ETH)</th>
+                  <th>Next Content</th>
+                </tr>
+              </thead>
+              <tbody id="ad-rows">
+              </tbody>
+            </table>
+          </div>
+          <h2>Bid for Ad Board</h2>
+          <div id="msg"></div>
+            <input class="form-control" type="text" id="bid_for_adID" placeholder="Enter target Address"/>
+            <input class="form-control" type="text" id="bid_content" placeholder="Image url"/>
+            <br>
+            <div class="input-group">
+              <input class="form-control" type="number" id="vote-tokens" placeholder="Total no. of tokens to Bid"/>
+              <span class="input-group-btn"><button href="#" onclick="bidForAd()" class="btn btn-info">Bid</button></span>
+            </div>
+      </div>
+
+      <div id="settings" class="tabcontent">
+        <div class="table-responsive" id="dashboard-tables">
+          <h2> Settings </h2>
+          <table class=" table table-bordered table-hover">
+            <thead>
+              <tr>
+                <!-- <th> Your website Link</th> -->
+                <th> Margin Ratio</th>
+                <th> Total Earned </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <!-- <td id="owner_web"> - </td> -->
+                <td id="owner_margin"></td>
+                <td id="owner_revenue"></td>
+              </tr>
+              <tr>
+               <!--  <td> <div class="input-group"><input class="form-control" type="text" id="new-url" placeholder="New url"/><span class="input-group-btn"><button href="#" onclick="changeWeb()" class="btn btn-info">Update</button><span class="input-group-btn"> </div> </td> -->
+                <td>
+                  <div class="input-group"><input class="form-control" type="number" id="new-margin-ratio" placeholder="Change Ratio"/><span class="input-group-btn"><button href="#" onclick="changeRatio()" class="btn btn-info">Update</button><span class="input-group-btn"> </div></td>
+                
+                  <td><div class="input-group">
+                  <span class="input-group-btn"><button href="#" onclick="Withdraw()" class="btn btn-info">Withdraw</button><span class="input-group-btn">
+                  </div>
+                  </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- <h1 id="title-msg">Public Interactive Semantic Ad</h1><br> -->
+            
+    
+    
   </div>
 
 
   <div class="row">
-  <div class="col-sm-12 margin-top-3">
-    <h2>All Available Boards</h2>
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover">
-        <thead>
-          <tr>
-            <th>Owner</th>
-            <th>Current Content</th>
-            <th>Bid Closed</th>
-            <th>Highest Bid (ETH)</th>
-            <th>Next Content</th>
-          </tr>
-        </thead>
-        <tbody id="ad-rows">
-        </tbody>
-      </table>
-    </div>
-    <!-- <div class="container-fluid"> -->
-      <h2>Bid for Ad Board</h2>
-      <div id="msg"></div>
-      <input class="form-control" type="text" id="bid_for_adID" placeholder="Enter the candidate name"/>
-      <input class="form-control" type="text" id="bid_content" placeholder="Content"/>
-      <br>
-      <div class="input-group">
-        <input class="form-control" type="number" id="vote-tokens" placeholder="Total no. of tokens to Bid"/>
-        <span class="input-group-btn"><button href="#" onclick="bidForAd()" class="btn btn-info">Bid</button><span class="input-group-btn">
-      </div>
-    <!-- </div> -->
-  </div>
+        
   
-  </div>
+</div>
 </body>
 <script src="app.js"></script>
+<script type="text/javascript">
+//   $(function() {
+//     $('#main-tab-btn').click();
+// });
+
+</script>
+
+<script type="text/javascript">
+  function openCity(evt, cityName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+</script>
+
+<script type="text/javascript">
+// for modal
+
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("signup-btn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal 
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}  
+</script>
+
 </html>

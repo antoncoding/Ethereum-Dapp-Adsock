@@ -10,4 +10,10 @@ module.exports = {
       network_id: '*' // Match any network id
     }
   }
+  // plugins: [
+  //       new webpack.ProvidePlugin({
+  //          $: "jquery",
+  //          jQuery: "jquery"
+  //      })
+  //   ]
 }
