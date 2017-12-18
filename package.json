@@ -34,6 +34,10 @@
     "truffle-contract": "^1.1.11",
     "web3": "^0.20.2",
     "webpack": "^2.7.0",
-    "webpack-dev-server": "^2.9.4"
+    "webpack-dev-server": "^2.9.4",
+    "webpack-devserver": "0.0.6"
+  },
+  "dependencies": {
+    "truffle": "^4.0.1"
   }
 }

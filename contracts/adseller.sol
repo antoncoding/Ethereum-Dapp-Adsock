@@ -40,7 +40,7 @@ contract adseller {
             return false;
         }
         else{
-            bidDueTime[ad_id] += timeInterval[ad_id];
+            bidDueTime[ad_id] = now + timeInterval[ad_id];
             address redeemaddress = currentAdOwner[ad_id];
             uint256 redeemvalue = marginRatio[ad_id]*currentAdValue[ad_id]/(marginRatio[ad_id]+1);
             uint256 revenue_value = currentAdValue[ad_id] - redeemvalue;

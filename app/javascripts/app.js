@@ -35,11 +35,11 @@ window.register = function(){
   $("#ad-msg").html("Register request has been submitted. Please wait.");
   
   Adseller.deployed().then(function(contractInstance) {
-    contractInstance.register(in_second, {gas: 140000, from: getCurrentAccount()}).then(function() {
+    contractInstance.register(in_second, {gas: 180000, from: getCurrentAccount()}).then(function() {
       $("#ad-msg").html("");
       // Update url seperately
       var new_url = $("#new-url").val();
-        contractInstance.setHostWebUrl(new_url,{gas: 140000, from: getCurrentAccount()}).then(function(success) {
+        contractInstance.setHostWebUrl(new_url,{gas: 240000, from: getCurrentAccount()}).then(function(success) {
         if(success==true){window.alert("Successfully registered, please refresh the page!")}
     })
     })
@@ -121,10 +121,10 @@ function populateAds() {
         contractInstance.nextAdContent.call(addr).then(function(nc){
            contractInstance.bidDueTime.call(addr).then(function(t){
               contractInstance.highestBid.call(addr).then(function(b){
-                contractInstance.currentAdContent.call(addr).then(function(cc){
+                contractInstance.hostWebUrl.call(addr).then(function(cw){
                 var date = new Date(t*1000);
                 b = b/1000000000000000000;
-                $("#ad-rows").append("<tr><td>"+addr+"</td><td id='cc_"+addr+"'>"+cc+"</td><td id='due_" 
+                $("#ad-rows").append("<tr><td>"+addr+"</td><td id='cw_"+addr+"'>"+cw+"</td><td id='due_" 
                 + addr + "'>" +date + "</td><td id='highest_" +addr+ "'>"+ b +"</td><td id='nc_" +addr+ "'>"+nc+"</td></tr>");
             })
           })
