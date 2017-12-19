@@ -19,7 +19,7 @@ window.bidForAd = function(ad) {
   Adseller.deployed().then(function(contractInstance) {
     let Tokens = $("#vote-tokens").val();
     contractInstance.bid(content, AdId, {value: web3.toWei(Tokens, 'ether'), gas: 500000, from: getCurrentAccount() }).then(function(success) {
-      window.alert('Submitted')
+      // window.alert('Submitted')
     });
   });
 }
@@ -30,7 +30,6 @@ window.register = function(){
   let hours = $("#time-interval-hour").val();
   let days = $("#time-interval-day").val();
   let in_second = 86400*days + 3600*hours + 60*minutes;
-  // window.alert(in_second);
   let adID = $("#ad_id").val();
   $("#ad-msg").html("Register request has been submitted. Please wait.");
   
@@ -124,8 +123,10 @@ function populateAds() {
                 contractInstance.hostWebUrl.call(addr).then(function(cw){
                 var date = new Date(t*1000);
                 b = b/1000000000000000000;
+                makeShort(nc, "nc_"+addr);
+                makeShort(cw, "cw_"+addr);
                 $("#ad-rows").append("<tr><td>"+addr+"</td><td id='cw_"+addr+"'>"+cw+"</td><td id='due_" 
-                + addr + "'>" +date + "</td><td id='highest_" +addr+ "'>"+ b +"</td><td id='nc_" +addr+ "'>"+nc+"</td></tr>");
+                + addr + "'>" +date + "</td><td id='highest_" +addr+ "'>"+ b +"</td><td id='nc_" +addr+ "'></td></tr>");
             })
           })
         })
@@ -135,7 +136,6 @@ function populateAds() {
   });
 
   
-
   Adseller.deployed().then(function(contractInstance) {
     contractInstance.registered.call(this_user).then(function(v) {
       if(v==true){
@@ -191,6 +191,68 @@ function getCurrentAccount(){
   }, 100);
   return account;
 }
+
+function makeShort(longurl, id) 
+{
+    // console.log(longurl);
+    var request = gapi.client.urlshortener.url.insert({
+    'resource': {
+      'longUrl': longurl
+  }
+    });
+
+  var result = '';
+    request.execute(function(response) 
+  {
+    
+    if(response.id != null)
+    {
+      // alert(response.id);
+      // let result = response.id;
+      $("#"+id).html(response.id);
+    }
+    else
+    {
+      // alert('not converting');
+      // let result = longurl;
+      $("#"+id).html(longurl);
+    }
+    });
+  return result;
+ }
+
+function getShortInfo()
+{
+var shortUrl=document.getElementById("shorturl").value;
+
+    var request = gapi.client.urlshortener.url.get({
+      'shortUrl': shortUrl,
+  'projection':'FULL'
+    });
+    request.execute(function(response) 
+  {
+    
+    if(response.longUrl!= null)
+    {
+      str ="<b>Long URL:</b>"+response.longUrl+"<br>";
+      str +="<b>Create On:</b>"+response.created+"<br>";
+      document.getElementById("output").innerHTML = str;
+    }
+    else
+    {
+      alert("error: unable to get URL information");
+    }
+  
+    });
+
+}
+function load()
+{
+  gapi.client.setApiKey('AIzaSyAHAIWbhnlOgm2eUWQTn7Q8h8CWz6osJec'); //get your ownn Browser API KEY
+  gapi.client.load('urlshortener', 'v1',function(){});
+
+}
+window.onload = load;
 
 window.addEventListener('load', function() {
   if (typeof web3 !== 'undefined') {
