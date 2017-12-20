@@ -18,7 +18,7 @@ window.bidForAd = function(ad) {
 
   Adseller.deployed().then(function(contractInstance) {
     let Tokens = $("#vote-tokens").val();
-    contractInstance.bid(content, AdId, {value: web3.toWei(Tokens, 'ether'), gas: 500000, from: getCurrentAccount() }).then(function(success) {
+    contractInstance.bid(content, AdId, {value: web3.toWei(Tokens, 'ether'), gas: 300000, from: getCurrentAccount() }).then(function(success) {
       // window.alert('Submitted')
     });
   });
@@ -34,11 +34,9 @@ window.register = function(){
   $("#ad-msg").html("Register request has been submitted. Please wait.");
   
   Adseller.deployed().then(function(contractInstance) {
-    contractInstance.register(in_second, {gas: 180000, from: getCurrentAccount()}).then(function() {
-      $("#ad-msg").html("");
-      // Update url seperately
+    contractInstance.register(in_second, {gas: 300000, from: getCurrentAccount()}).then(function() {
       var new_url = $("#new-url").val();
-        contractInstance.setHostWebUrl(new_url,{gas: 240000, from: getCurrentAccount()}).then(function(success) {
+        contractInstance.setHostWebUrl(new_url,{gas: 230000, from: getCurrentAccount()}).then(function(success) {
         if(success==true){window.alert("Successfully registered, please refresh the page!")}
     })
     })
@@ -125,7 +123,7 @@ function populateAds() {
                 b = b/1000000000000000000;
                 makeShort(nc, "nc_"+addr);
                 makeShort(cw, "cw_"+addr);
-                $("#ad-rows").append("<tr><td>"+addr+"</td><td id='cw_"+addr+"'>"+cw+"</td><td id='due_" 
+                $("#ad-rows").append("<tr><td>"+addr+"</td><td id='cw_"+addr+"'></td><td id='due_" 
                 + addr + "'>" +date + "</td><td id='highest_" +addr+ "'>"+ b +"</td><td id='nc_" +addr+ "'></td></tr>");
             })
           })
@@ -207,15 +205,11 @@ function makeShort(longurl, id)
     
     if(response.id != null)
     {
-      // alert(response.id);
-      // let result = response.id;
-      $("#"+id).html(response.id);
+      $("#"+id).html('<a href="'+ longurl +'">'+response.id+'</a>');
     }
     else
     {
-      // alert('not converting');
-      // let result = longurl;
-      $("#"+id).html(longurl);
+      $("#"+id).html('<a href="'+ longurl +'">'+longurl+'</a>');
     }
     });
   return result;

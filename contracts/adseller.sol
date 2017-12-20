@@ -47,7 +47,7 @@ contract adseller {
             currentAdValue[ad_id] = highestBid[ad_id];
             currentAdContent[ad_id] = nextAdContent[ad_id];
             currentAdOwner[ad_id] = nextAdOwner[ad_id];
-            nextAdContent[ad_id] = "https://i.supload.com/H1eiRgO8ZM.png";
+            nextAdContent[ad_id] = "https://i.supload.com/H1xWp698zz.png";
             nextAdOwner[ad_id] = 0x0;
             highestBid[ad_id] = 0;
             marginRatio[ad_id] = _marginRatio[ad_id];

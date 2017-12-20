@@ -6,6 +6,7 @@
   <link href="https://fonts.googleapis.com/css?family=Acme|Quicksand" rel="stylesheet">
 
   <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+
 </head>
 <body >
 <div class="container" style="margin:0%; width: 100%; height: 100%; padding: 0%" >
@@ -20,9 +21,10 @@
         
       </div>
 
-      <div id="myModal" class="modal">
+      <!-- Sign Up Modal -->
+      <div id="signupModel" class="modal">
         <div class="modal-content" style="width: 50%">
-          <span class="close">&times;</span>
+          <span class="signup-close">&times;</span>
           <h2 style="text-align: center;">Sign Up</h2><hr>
           <p> To Sign Up <span class="brand">ADSOCKS</span>, please install <a href="https://metamask.io/"> metamask </a> in your Chrome browser or run an Ethereum node on your local computer. We will use your public ethereum address as username, and you will only be able to login through metamask</p>
           <br>
@@ -45,20 +47,40 @@
         </div>
       </div>
 
+      <!-- Generator Modal -->
+      <div id="generatorModel" class="modal">
+        <div class="modal-content" style="width: 50%">
+          <span class="generator-close-span">&times;</span>
+          <h2 style="text-align: center;">Code Generator</h2><hr>
+          <h4> Copy the followimg iframe code into your html, and you are good to go!</h4>
+          <br>
+          <xmp>
+<iframe src="http://140.112.106.232:17779/PISA/service?name={{your address}}" 
+width="100%" height="600px" 
+frameborder="0" scrolling="no"> </iframe>
+        </xmp>
+          
+          <div style="text-align: center;"><button id="generator-close-btn" class="btn btn-info">Close</button></div>
+          
+        </div>
+      </div>
+
       <div id="main-tab" class="tabcontent">
         <h2> Welcome to <span class="brand"> ADSOCKS </span>,
         <h3> A new generation blockchain advertisment solution.</h3>
         <br>
         
-        <p> To use <span class="brand">ADSOCKS</span> on your own website, simply register an account and embed the following iframe code in your html. </p>
+        <p> To use <span class="brand">ADSOCKS</span> on your own website, simply register an account and embed the following iframe code in your html. </p><br>
 
-    <!-- <code> -->
-          <xmp>
-          <iframe src="http://140.112.106.232:17779/PISA/service?name={{your address}}" 
+        <button class="btn" id="generator-btn"> Generate you Code </button>
+
+        <br>
+        <h5> Bid the following section with address: 0x7bd36863951561469f820b3e65e612172392b59a </h5>
+        <iframe src="http://140.112.106.232:17779/PISA/service?name=0x7bd36863951561469f820b3e65e612172392b59a" 
           width="100%" height="600px" 
           frameborder="0" scrolling="no"> </iframe>
-        </xmp>
-        <!-- </code> -->
+
+
       </div>
 
       <!-- User Dashboard -->
@@ -138,7 +160,7 @@
                 <td id="owner_revenue"></td>
               </tr>
               <tr>
-               <!--  <td> <div class="input-group"><input class="form-control" type="text" id="new-url" placeholder="New url"/><span class="input-group-btn"><button href="#" onclick="changeWeb()" class="btn btn-info">Update</button><span class="input-group-btn"> </div> </td> -->
+
                 <td>
                   <div class="input-group"><input class="form-control" type="number" id="new-margin-ratio" placeholder="Change Ratio"/><span class="input-group-btn"><button href="#" onclick="changeRatio()" class="btn btn-info">Update</button><span class="input-group-btn"> </div></td>
                 
@@ -196,30 +218,46 @@
 // for modal
 
 // Get the modal
-var modal = document.getElementById('myModal');
+var signupmodal = document.getElementById('signupModel');
+var signupbtn = document.getElementById("signup-btn");
+var signupspan = document.getElementsByClassName("signup-close")[0];
 
-// Get the button that opens the modal
-var btn = document.getElementById("signup-btn");
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks on the button, open the modal 
-btn.onclick = function() {
-    modal.style.display = "block";
+signupbtn.onclick = function() {
+    signupmodal.style.display = "block";
 }
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
+signupspan.onclick = function() {
+    signupmodal.style.display = "none";
 }
-
-// When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
+    if (event.target == signupmodal) {
+        signupmodal.style.display = "none";
     }
-}  
+}
+
+var generatormodal = document.getElementById('generatorModel');
+var generator_btn = document.getElementById("generator-btn");
+var generator_close = document.getElementById("generator-close-btn");
+var generator_span = document.getElementsByClassName("generator-close-span")[0];
+
+generator_btn.onclick = function() {
+    generatormodal.style.display = "block";
+}
+generator_span.onclick = function() {
+    generatormodal.style.display = "none";
+}
+generator_close.onclick = function(){
+    generatormodal.style.display = "none";
+}
+window.onclick = function(event) {
+    if (event.target == generatormodal) {
+        generatormodal.style.display = "none";
+    }
+}
+
+
+
+
+
 </script>
 
 </html>
